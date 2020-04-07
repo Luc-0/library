@@ -1,0 +1,36 @@
+:root {
+    --header-color: #3AA12C;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 14;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+#main-header {
+    background-color: var(--header-color, green) !important;
+    color: #fff;
+    padding: 1.5rem;
+}
+
+#header-title {
+    font-size: 2em;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.column {
+    box-sizing: content-box;
+    flex: 0 0 50%;
+    margin: 0;
+}
