@@ -1,5 +1,7 @@
 :root {
-    --header-color: #3AA12C;
+    --header-color: #2BA149;
+    --remove-button-color: #FF504F;
+    --button-color: #94D8FF;
 }
 
 * {
@@ -11,12 +13,20 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
+    background-color: #eee;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #main-header {
     background-color: var(--header-color, green) !important;
     color: #fff;
     padding: 1.5rem;
+    margin-bottom: 20px;
 }
 
 #header-title {
@@ -33,4 +43,67 @@ body {
     box-sizing: content-box;
     flex: 0 0 50%;
     margin: 0;
+}
+
+#book-form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.form-control label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control input {
+    font-size: 14px;
+    border-radius: 5px;
+    border: 0.4px solid rgba(0, 0, 0, 0.3);
+    outline: none;
+    padding: 5px;
+}
+
+.button {
+    padding: 5px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    background-color: var(--button-color, blue);
+    color: #000;
+}
+
+#book-list {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    background-color: #fff;
+    margin: 30px;
+}
+
+.book-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #000;    
+}
+
+.book-item span {
+    border-right: 0.4px solid #999;
+    text-align: center;
+    flex: 0 1 100%;
+    padding: 10px;
+}
+
+.remove-btn {
+    background-color: var(--remove-button-color, darkred);
+    color: #fff;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    margin: 10px;
 }

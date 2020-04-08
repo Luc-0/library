@@ -15,11 +15,34 @@
                         <h1 id="header-title">Library</h1>
                     </div>
                     <div class="column">
-                        <input type="text" class="form-control" id="filter" placeholder="Search books">
+                        <input type="text" id="filter" placeholder="Search books">
                     </div>
                 </div>
             </div>            
         </header>
+        <div class="main-container container">            
+            <form id="book-form">
+                <div class="form-control">
+                    <label for="title">Title</label>
+                    <input id="title" type="text" required>
+                </div>
+                <div class="form-control">
+                    <label for="author">Author</label>
+                    <input id="author" type="text" required>
+                </div>
+                <div class="form-control">
+                    <label for="pages">Pages</label>
+                    <input id="pages" type="text" required>
+                </div>
+                <div class="form-control">
+                    <input id="completed" name="completed" value="completed" type="checkbox">
+                    <label for="completed">Completed</label>
+                </div>
+                <button type="submit" class="button">Add book</button>         
+            </form>
+            
+            <ul id="book-list"></ul>
+        </div>
         <script src="script.js"></script>
     </body>
 </html>
