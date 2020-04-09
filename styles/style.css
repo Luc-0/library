@@ -51,6 +51,10 @@ body {
     flex-direction: column;
 }
 
+.form-control label[for="completed"] {
+    display: inline;
+}
+
 .form-control {
     margin-bottom: 10px;
 }
