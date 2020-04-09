@@ -1,13 +1,14 @@
 const bookList = document.getElementById("book-list");
 const form = document.getElementById("book-form");
+const newButton = document.getElementById("new-btn");
 
 myStorage = window.localStorage;
-console.log();
 
 let library = loadLocalStorageLibrary();
 
 render();
 
+newButton.addEventListener("click", showForm);
 form.addEventListener("submit", addBookToLibrary);
 
 function loadLocalStorageLibrary() {
@@ -36,6 +37,29 @@ function render() {
     });
 }
 
+function showForm() {
+    newButton.style.display = "none";
+    form.style.display = "flex";
+}
+
+function hideForm() {
+    newButton.style.display = "inline-block";
+    form.style.display = "none";
+}
+
+function clearForm() {
+    let length = form.elements.length;
+    for (let i = 0; i < length; i++) {
+        let element = form.elements[i];
+        if (element.type === "checkbox") {
+            form.elements[i].checked = false;
+            console.log(form.elements[i].checked);
+        } else {
+            form.elements[i].value = "";
+        }
+    }
+}
+
 function addBookToLibrary(e) {
     e.preventDefault();
     let inputs = e.target.elements;
@@ -50,6 +74,8 @@ function addBookToLibrary(e) {
     library.push(newBook);
     updateLibraryLocalStorage();
     displayBook(newBook);
+    clearForm();
+    hideForm();
 }
 
 function displayBook(book) {    
