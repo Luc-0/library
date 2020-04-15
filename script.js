@@ -6,6 +6,15 @@ myStorage = window.localStorage;
 
 let library = loadLocalStorageLibrary();
 
+class Book {
+    constructor(title, author, pages, status) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.status = status;
+    }
+}
+
 render();
 
 newButton.addEventListener("click", showForm);
@@ -24,12 +33,12 @@ function updateLibraryLocalStorage() {
     localStorage.setItem("library", JSON.stringify(library));
 }
 
-function Book(title, author, pages, status) {
-    this.title = title,
-    this.author = author,
-    this.pages = pages,
-    this.status = status;
-}
+// function Book(title, author, pages, status) {
+//     this.title = title,
+//     this.author = author,
+//     this.pages = pages,
+//     this.status = status;
+// }
 
 function render() {
     library.forEach(book => {
