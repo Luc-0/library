@@ -18,7 +18,17 @@
                         <input type="text" id="filter" placeholder="Search books">
                     </div>
                 </div>
-            </div>            
+            </div>           
+            <div id="user-container">
+                <div hidden id="user-pic"></div>
+                <div hidden id="user-name"></div>
+                <button hidden id="sign-out" class="button">
+                  Sign-out
+                </button>
+                <button id="sign-in" class="button">
+                    Sign-in with Google
+                </button>
+              </div> 
         </header>
         <div class="main-container container">      
             <button id="new-btn" class="button">New book</button>      
@@ -44,6 +54,36 @@
             
             <ul id="book-list"></ul>
         </div>
+
+        <div hidden id="must-signin-message">
+            <div>You must sign-in first</div>
+        </div>
+                
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+
+        <!-- Firebase SDKs -->
+        <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyAGASGqIGBBuhZJlkELv5iAcbvdiCGBTuA",
+            authDomain: "library-8be14.firebaseapp.com",
+            databaseURL: "https://library-8be14.firebaseio.com",
+            projectId: "library-8be14",
+            storageBucket: "library-8be14.appspot.com",
+            messagingSenderId: "422721398974",
+            appId: "1:422721398974:web:bb4d3ea36aa423ef4916ef",
+            measurementId: "G-R2GT1L0EPM"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        </script>
+
         <script src="script.js"></script>
     </body>
 </html>

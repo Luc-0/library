@@ -1,10 +1,21 @@
 const bookList = document.getElementById("book-list");
 const form = document.getElementById("book-form");
 const newButton = document.getElementById("new-btn");
+const userPicElement = document.getElementById('user-pic');
+const userNameElement = document.getElementById('user-name');
+const signInButtonElement = document.getElementById('sign-in');
+const signOutButtonElement = document.getElementById('sign-out');
+const mustSignInMessageElement = document.getElementById('must-signin-message');
 
-myStorage = window.localStorage;
+signOutButtonElement.addEventListener('click', signOut);
+signInButtonElement.addEventListener('click', signIn);
+newButton.addEventListener("click", showForm);
+form.addEventListener("submit", addBookToLibrary);
 
-let library = loadLocalStorageLibrary();
+const db = firebase.firestore();
+initFirebaseAuth();
+
+let books = [];
 
 class Book {
     constructor(title, author, pages, status) {
@@ -15,22 +26,114 @@ class Book {
     }
 }
 
-render();
-
-newButton.addEventListener("click", showForm);
-form.addEventListener("submit", addBookToLibrary);
-
-function loadLocalStorageLibrary() {
-    let localLibrary = JSON.parse(localStorage.getItem("library"));
-    
-    if (localLibrary == null) {
-        return new Array();
-    }
-    return localLibrary;
+function signIn() {
+    // Sign into firebase using popup auth & Google as the indenty provider.
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider);
 }
 
-function updateLibraryLocalStorage() {
-    localStorage.setItem("library", JSON.stringify(library));
+function signOut() {
+    firebase.auth().signOut();
+}
+
+function initFirebaseAuth() {
+    firebase.auth().onAuthStateChanged(authStateObserver);
+}
+
+function getProfilePicUrl() {
+    return firebase.auth().currentUser.photoURL || './images/profile_placeholder.png';
+}
+
+function getUserName() {
+    return firebase.auth().currentUser.displayName;
+}
+
+function isUserSignedIn() {
+    return !!firebase.auth().currentUser;
+}
+
+function authStateObserver(user) {
+    if (user) { // User is signed in!
+      // Get the signed-in user's profile pic and name.
+      var profilePicUrl = getProfilePicUrl();
+      var userName = getUserName();
+  
+      // Set the user's profile pic and name.
+      userPicElement.style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(profilePicUrl) + ')';
+      userNameElement.textContent = userName;
+  
+      // Show user's profile and sign-out button.
+      userNameElement.removeAttribute('hidden');
+      userPicElement.removeAttribute('hidden');
+      signOutButtonElement.removeAttribute('hidden');
+  
+      // Hide sign-in button.
+      signInButtonElement.setAttribute('hidden', 'true');
+    
+      loadDatabaseUserBooks();
+    } else { // User is signed out!
+      // Hide user's profile and sign-out button.
+      userNameElement.setAttribute('hidden', 'true');
+      userPicElement.setAttribute('hidden', 'true');
+      signOutButtonElement.setAttribute('hidden', 'true');
+  
+      // Show sign-in button.
+      signInButtonElement.removeAttribute('hidden');
+      clearForm();
+      hideForm();
+      clearBookList();
+    }
+}
+
+function checkSignInWithMessage() {
+    if (isUserSignedIn()) {
+        return true;
+    }
+
+    mustSignInMessageElement.removeAttribute('hidden');
+
+    setTimeout(() => {
+        mustSignInMessageElement.setAttribute('hidden', 'true');
+    }, 3000);
+}
+
+// Adds a size to Google Profile pics URLs.
+function addSizeToGoogleProfilePic(url) {
+    if (url.indexOf('googleusercontent.com') !== -1 && url.indexOf('?') === -1) {
+      return url + '?sz=150';
+    }
+    return url;
+  }
+
+function loadDatabaseUserBooks() {
+    const currentUserId = firebase.auth().currentUser.uid;
+    const userDoc = db.collection('users').doc(currentUserId);
+    userDoc.get().then((doc) => {
+        if (!doc.exists) {
+            console.log('not ex');
+            return [];
+        }
+
+        books = JSON.parse(doc.data().books);
+        render();
+    });
+}
+
+// 
+function updateDatabaseUserBooks() {
+    if (!isUserSignedIn) {
+        console.log('User not logged in to update database');
+        return;
+    }
+    const currentUserId = firebase.auth().currentUser.uid;
+    console.log(currentUserId);
+    const userDoc = db.collection('users').doc(currentUserId)
+        .set({books: JSON.stringify(books)}, {merge: true})
+        .then(() => {
+            console.log('Document successfully writen.');
+        }).catch(error => {
+            console.error('Error writing document', error);
+        });
 }
 
 // function Book(title, author, pages, status) {
@@ -40,13 +143,20 @@ function updateLibraryLocalStorage() {
 //     this.status = status;
 // }
 
+function clearBookList() {
+    bookList.innerHTML = '';
+}
+
 function render() {
-    library.forEach(book => {
+    books.forEach(book => {
         displayBook(book);
     });
 }
 
 function showForm() {
+    if (!checkSignInWithMessage()) {
+        return;
+    }
     newButton.style.display = "none";
     form.style.display = "flex";
 }
@@ -80,8 +190,8 @@ function addBookToLibrary(e) {
 
     let newBook = new Book(title, author, pages, status);
     
-    library.push(newBook);
-    updateLibraryLocalStorage();
+    books.push(newBook);
+    updateDatabaseUserBooks();
     displayBook(newBook);
     clearForm();
     hideForm();
@@ -126,8 +236,8 @@ function removeFromList(e) {
     let bookListArr = Array.from(bookList.children);
     let index = bookListArr.indexOf(book);
 
-    library.splice(index, 1);
-    updateLibraryLocalStorage();
+    books.splice(index, 1);
+    updateDatabaseUserBooks();
     bookList.removeChild(book);
 }
 
@@ -136,13 +246,13 @@ function changeReadStatus(e) {
     let bookListArr = Array.from(bookList.children);
     let index = bookListArr.indexOf(book);
 
-    let status = library[index].status;
+    let status = books[index].status;
     if (status) {
-        library[index].status = false;
+        books[index].status = false;
     } else {
-        library[index].status = true;
+        books[index].status = true;
     }
-    updateLibraryLocalStorage();
+    updateDatabaseUserBooks();
 }
 
 // Put each value into a span element
