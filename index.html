@@ -1,89 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Library</title>
-        <link rel="stylesheet" href="styles/reset.css">
-        <link rel="stylesheet" href="styles/style.css" />
-    </head>
-    <body>
-        <header id="main-header">
-            <div class="container">
-                <div class="row">
-                    <div class="column">
-                        <h1 id="header-title">Library</h1>
-                    </div>
-                    <div class="column">
-                        <input type="text" id="filter" placeholder="Search books">
-                    </div>
-                </div>
-            </div>           
-            <div id="user-container">
-                <div hidden id="user-pic"></div>
-                <div hidden id="user-name"></div>
-                <button hidden id="sign-out" class="button">
-                  Sign-out
-                </button>
-                <button id="sign-in" class="button">
-                    Sign-in with Google
-                </button>
-              </div> 
-        </header>
-        <div class="main-container container">      
-            <button id="new-btn" class="button">New book</button>      
-            <form id="book-form">
-                <div class="form-control">
-                    <label for="title">Title</label>
-                    <input id="title" type="text" required>
-                </div>
-                <div class="form-control">
-                    <label for="author">Author</label>
-                    <input id="author" type="text" required>
-                </div>
-                <div class="form-control">
-                    <label for="pages">Pages</label>
-                    <input id="pages" type="text" required>
-                </div>
-                <div class="form-control">
-                    <input id="completed" name="completed" value="completed" type="checkbox">
-                    <label for="completed">Completed</label>
-                </div>
-                <button type="submit" class="button">Add book</button>         
-            </form>
-            
-            <ul id="book-list"></ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <header id="main-header">
+      <div class="container">
+        <div class="row">
+          <div class="column">
+            <h1 id="header-title">Library</h1>
+          </div>
+          <div class="column">
+            <input type="text" id="filter" placeholder="Search books" />
+          </div>
         </div>
-
-        <div hidden id="must-signin-message">
-            <div>You must sign-in first</div>
+      </div>
+      <div id="user-container">
+        <div hidden id="user-pic"></div>
+        <div hidden id="user-name"></div>
+        <button hidden id="sign-out" class="button">Sign-out</button>
+        <button id="sign-in" class="button">Sign-in with Google</button>
+      </div>
+    </header>
+    <div class="main-container container">
+      <button id="new-btn" class="button">New book</button>
+      <form id="book-form">
+        <div class="form-control">
+          <label for="title">Title</label>
+          <input id="title" type="text" required />
         </div>
-                
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+        <div class="form-control">
+          <label for="author">Author</label>
+          <input id="author" type="text" required />
+        </div>
+        <div class="form-control">
+          <label for="pages">Pages</label>
+          <input id="pages" type="text" required />
+        </div>
+        <div class="form-control">
+          <input
+            id="completed"
+            name="completed"
+            value="completed"
+            type="checkbox"
+          />
+          <label for="completed">Completed</label>
+        </div>
+        <button type="submit" class="button">Add book</button>
+      </form>
 
-        <!-- Firebase SDKs -->
-        <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+      <ul id="book-list"></ul>
+    </div>
 
-        <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyAGASGqIGBBuhZJlkELv5iAcbvdiCGBTuA",
-            authDomain: "library-8be14.firebaseapp.com",
-            databaseURL: "https://library-8be14.firebaseio.com",
-            projectId: "library-8be14",
-            storageBucket: "library-8be14.appspot.com",
-            messagingSenderId: "422721398974",
-            appId: "1:422721398974:web:bb4d3ea36aa423ef4916ef",
-            measurementId: "G-R2GT1L0EPM"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-        </script>
+    <div hidden id="must-signin-message">
+      <div>You must sign-in first</div>
+    </div>
 
-        <script src="script.js"></script>
-    </body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+
+    <!-- Firebase SDKs -->
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-firestore.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: 'AIzaSyAluNVpucr_kaH-O1m-tkihIDKc5UYZh9E',
+        authDomain: 'library-74a37.firebaseapp.com',
+        projectId: 'library-74a37',
+        storageBucket: 'library-74a37.appspot.com',
+        messagingSenderId: '125868950671',
+        appId: '1:125868950671:web:e58d1002ed3b1d6f5a5cfa',
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script src="script.js"></script>
+  </body>
 </html>
